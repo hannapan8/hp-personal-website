@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sublease-go Case Study</title>
+<meta name="description" content="Sublease-go case study by Hanna Pan: an iOS app that makes subletting easier for UW students.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Same system as the portfolio: dark-first, smoky glows, white type with one italic serif accent. Case study reads as a single column with phone screens inline. */
+:root {
+  --bg: #0a0b0d;
+  --panel: rgba(255, 255, 255, 0.045);
+  --panel-2: rgba(255, 255, 255, 0.08);
+  --stroke: rgba(255, 255, 255, 0.10);
+  --ink: #f1f0ec;
+  --muted: #9b9a97;
+  --dim: #64635f;
+  --accent: #d8c6a2;
+  --glow-a: #34415c;
+  --glow-b: #4a4055;
+  --glow-c: #5e5142;
+  --sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.65;
+  padding-inline: clamp(16px, 4vw, 56px); padding-block: env(safe-area-inset-top, 0px) 40px; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: var(--bg); }
+a { color: inherit; }
+img { max-width: 100%; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+.mono { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.wrap { position: relative; z-index: 1; max-width: 1080px; margin-inline: auto; }
+.prose { max-width: 720px; }
+
+.aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aurora i { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.aurora i:nth-child(1) { width: 52vw; height: 52vw; left: -12vw; top: -10vw; background: var(--glow-a); animation: d1 26s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { width: 40vw; height: 40vw; right: -8vw; top: 30vh; background: var(--glow-b); animation: d2 32s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { width: 36vw; height: 36vw; left: 30vw; bottom: -14vw; background: var(--glow-c); opacity: .3; animation: d3 28s ease-in-out infinite alternate; }
+@keyframes d1 { to { transform: translate(18vw, 12vh) scale(1.15); } }
+@keyframes d2 { to { transform: translate(-22vw, 20vh) scale(.9); } }
+@keyframes d3 { to { transform: translate(-14vw, -26vh) scale(1.2); } }
+
+/* Nav */
+.nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 14px); z-index: 30; display: flex; align-items: center; gap: 16px; margin-top: 14px; padding: 10px 10px 10px 22px; border-radius: 999px;
+  background: rgba(14, 15, 18, .55); border: 1px solid var(--stroke); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.nav .back { text-decoration: none; font-size: 14px; color: var(--muted); display: inline-flex; gap: 10px; align-items: center; transition: color .3s; }
+.nav .back:hover { color: var(--ink); }
+.nav .back span { transition: transform .4s var(--ease); }
+.nav .back:hover span { transform: translateX(-3px); }
+.nav .name { margin-left: auto; font-size: 14px; color: var(--ink); text-decoration: none; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); }
+
+/* Header */
+header.cs { padding-block: clamp(70px, 10vw, 120px) 0; }
+h1 { font-weight: 400; font-size: clamp(3.4rem, 10vw, 8rem); letter-spacing: -.055em; line-height: .92; margin: 18px 0 0; }
+h1 em { font-size: 1.04em; }
+.lede { font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.4; letter-spacing: -.02em; max-width: 34ch; margin: 28px 0 0; color: var(--ink); }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 52px; border-top: 1px solid var(--stroke); }
+.meta div { padding: 18px 20px 0 0; min-width: 0; }
+.meta div + div { padding-left: 20px; border-left: 1px solid var(--stroke); }
+.meta dd { margin: 6px 0 0; font-size: 15px; line-height: 1.45; }
+
+/* Phones */
+.phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(14px, 3vw, 36px); flex-wrap: wrap; margin: 48px 0 0; }
+.phone { margin: 0; width: clamp(150px, 22vw, 240px); max-width: 100%; }
+.phone .frame { border-radius: 30px; padding: 7px; background: linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.04)); box-shadow: 0 40px 70px -35px rgba(0,0,0,.9); transition: transform .8s var(--ease); }
+.phone:hover .frame { transform: translateY(-6px); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 24px; }
+.phone figcaption { margin-top: 12px; text-align: center; }
+.hero-phones .phone { width: clamp(170px, 26vw, 280px); }
+.hero-phones .phone:nth-child(1) { transform: rotate(-4deg) translateY(18px); }
+.hero-phones .phone:nth-child(2) { transform: rotate(3deg); }
+
+/* Sections */
+section { padding-top: clamp(90px, 11vw, 140px); }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+h2 { font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); letter-spacing: -.05em; line-height: 1; margin: 14px 0 0; }
+h3 { font-weight: 400; font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -.035em; line-height: 1.15; margin: 0; }
+p { margin: 20px 0 0; }
+.prose p, .prose li { color: rgba(241,240,236,.82); }
+strong { font-weight: 500; color: var(--ink); }
+
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 40px; }
+.glass { background: var(--panel); border: 1px solid var(--stroke); border-radius: 24px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.pain { padding: 26px; }
+.pain h3 { font-size: 1.25rem; }
+.pain p { color: var(--muted); font-size: 15px; margin-top: 10px; }
+
+.goals { display: grid; gap: 0; margin-top: 36px; border-top: 1px solid var(--stroke); }
+.goal { display: grid; grid-template-columns: 70px 160px minmax(0, 1fr); gap: 20px; align-items: baseline; padding-block: 22px; border-bottom: 1px solid var(--stroke); }
+.goal .n { font-family: var(--serif); font-style: italic; font-size: 2rem; color: var(--accent); line-height: 1; }
+.goal b { font-weight: 400; font-size: 1.25rem; letter-spacing: -.02em; }
+.goal span { color: rgba(241,240,236,.82); }
+
+.decision { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; padding: clamp(26px, 4vw, 48px); margin-top: 18px; }
+.decision .num { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 1.1rem; }
+.decision h3 { margin-top: 8px; }
+.decision .prose { margin-top: 4px; }
+.decision .phones { margin-top: 36px; }
+.decision .phone { width: clamp(140px, 19vw, 210px); }
+.wide-shot { margin: 32px auto 0; max-width: 520px; }
+.wide-shot .frame { border-radius: 26px 26px 10px 10px; padding: 7px 7px 0; }
+.wide-shot img { border-radius: 20px 20px 4px 4px; }
+.wide-shot figcaption { text-align: center; margin-top: 12px; }
+
+ol.steps { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 14px; counter-reset: s; }
+ol.steps li { counter-increment: s; position: relative; padding: 22px 24px 22px 76px; }
+ol.steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 24px; top: 22px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--accent); }
+.callout { margin-top: 28px; padding: 26px 28px; border-left: 2px solid var(--accent); border-radius: 0 20px 20px 0; background: var(--panel); }
+.callout p { margin: 0; }
+
+.tablewrap { overflow-x: auto; margin-top: 36px; border-radius: 24px; border: 1px solid var(--stroke); background: var(--panel); }
+table { width: 100%; border-collapse: collapse; min-width: 620px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 18px 22px; border-bottom: 1px solid var(--stroke); }
+th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--ink); font-weight: 400; width: 24%; }
+td { color: rgba(241,240,236,.82); }
+
+.next { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 36px; }
+.next .glass { padding: 24px; }
+.next b { font-weight: 400; display: block; font-size: 1.1rem; letter-spacing: -.02em; }
+.next span { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; }
+.takeaway { margin-top: 56px; font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1.15; letter-spacing: -.035em; max-width: 26ch; }
+
+.end { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: clamp(90px, 11vw, 140px); padding: 28px 32px; }
+.end a { text-decoration: none; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 400; transition: background-color .3s; }
+.btn:hover { background: var(--accent); }
+footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 28px; }
+
+.reveal.pre { opacity: 0; transform: translateY(40px); filter: blur(8px); }
+.reveal.in { opacity: 1; transform: none; filter: none; transition: opacity 1s var(--ease), transform 1.1s var(--ease), filter 1s var(--ease); transition-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+@media (max-width: 760px) {
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .meta div:nth-child(n+3) { border-top: 1px solid var(--stroke); margin-top: 18px; }
+  .pains, .next { grid-template-columns: minmax(0, 1fr); }
+  .goal { grid-template-columns: 44px minmax(0, 1fr); }
+  .goal span { grid-column: 2; }
+  .hero-phones .phone { width: 44%; }
+  .decision .phone { width: 46%; }
+  .decision .phones { gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Case study">
+    <a class="back" href="index.html#projects"><span aria-hidden="true">←</span> Back to projects</a>
+    <a class="name" href="index.html">Hanna Pan</a>
+  </nav>
+
+  <header class="cs">
+    <span class="mono eyebrow">Case study · iOS · March 2026</span>
+    <h1>Sublease-<em>go</em></h1>
+    <p class="lede">An iOS app that makes subletting easier for UW students, with verified accounts, filterable listings, and messaging built into each listing.</p>
+    <dl class="meta">
+      <div><dt class="mono">Role</dt><dd>Product designer &amp; frontend lead. Designed the low-fi and high-fi prototypes and built all UI screens in SwiftUI.</dd></div>
+      <div><dt class="mono">Team</dt><dd>4 students</dd></div>
+      <div><dt class="mono">Timeline</dt><dd>2 weeks, March 2026<br>iOS mobile development course</dd></div>
+      <div><dt class="mono">Tools</dt><dd>Figma, SwiftUI, Firebase, Claude, Claude Code</dd></div>
+    </dl>
+    <div class="phones hero-phones">
+      <figure class="phone"><div class="frame"><img src="img/sublease/landing.jpg" alt="Sublease-go home screen with a Get Started button" width="600" height="1305"></div></figure>
+      <figure class="phone"><div class="frame"><img src="img/sublease/feed.jpg" alt="Listing Feed showing sublets with price, bedrooms, and tags" width="600" height="1305"></div></figure>
+    </div>
+  </header>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">The problem</span>
+      <h2>Subletting runs on tools <em>never built for it.</em></h2>
+      <p>UW students find sublets through Facebook groups, Reddit, and word of mouth, and none of those were built for it.</p>
+    </div>
+    <div class="pains">
+      <div class="pain glass reveal"><h3>No verification</h3><p>Anyone can post a listing, so you can't tell if you're talking to a real student.</p></div>
+      <div class="pain glass reveal"><h3>Hard to keep track of</h3><p>Listings are scattered across platforms and buried in feeds and comment threads.</p></div>
+      <div class="pain glass reveal"><h3>No easy way to compare</h3><p>Key details like dates, price, and whether it's furnished live in free-text posts, if they're there at all.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Design goals</span>
+      <h2>One goal per <em>pain point.</em></h2>
+    </div>
+    <div class="goals reveal">
+      <div class="goal"><span class="n">1</span><b>Trust</b><span>Every user should be a verified UW student.</span></div>
+      <div class="goal"><span class="n">2</span><b>Fit</b><span>Students should be able to tell if a place works for them before reaching out.</span></div>
+      <div class="goal"><span class="n">3</span><b>Contact</b><span>Getting in touch with a lister should take as few steps as possible.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Key design decisions</span>
+      <h2>Four calls that <em>shaped the app.</em></h2>
+    </div>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 01 · Trust</span>
+      <h3>Verify with a UW email, and keep it simple</h3>
+      <div class="prose">
+        <p>We wanted Sublease-go to be for UW students only, so sign-in requires a @uw.edu email, and profiles show a "UW Verified" badge. We'd talked about more extensive verification, but with 2 weeks, email-based auth gave us the trust we needed without eating the timeline. New users get an account automatically on first sign-in, so there's no separate sign-up flow.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/sublease/login.jpg" alt="Login screen asking for a UW email and password" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Sign in</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/sublease/login-error.jpg" alt="Login screen showing 'Please use a valid @uw.edu email'" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Non-UW email blocked</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/sublease/profile.jpg" alt="Profile screen with a UW Verified badge and the user's listings" width="600" height="1305" loading="lazy"></div><figcaption class="mono">UW Verified badge</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 02 · Fit</span>
+      <h3>Put the details students decide on up front</h3>
+      <div class="prose">
+        <p>Every listing captures price, bedrooms, building, furnished or not, lease dates, and roommate preferences (gender and school year). The feed can be filtered by max price, minimum bedrooms, and furnished-only, so students can rule places out before messaging anyone.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/sublease/feed.jpg" alt="Listing Feed with price, bedroom count, building, and furnished tags on each card" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Listing feed</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/sublease/create.jpg" alt="Create Listing form with title, building, price, bedrooms stepper, furnished toggle, and description" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Create listing</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 03 · Contact</span>
+      <h3>Message from the listing, not the profile</h3>
+      <div class="prose">
+        <p>We tested two entry points for contacting a lister: from their profile, or directly on the listing. Putting "Message Lister" on the listing cut a step, since students are already looking at the place they care about. Ongoing conversations live in their own Messages tab.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/sublease/listing.jpg" alt="Listing Details screen with a Message Lister button" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Message Lister</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/sublease/messages.jpg" alt="Messages tab listing conversations" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Messages tab</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/sublease/chat.jpg" alt="Chat thread with a message asking about a listing" width="600" height="1305" loading="lazy"></div><figcaption class="mono">Chat thread</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 04 · Tradeoff</span>
+      <h3>A refresh button over pull-to-refresh</h3>
+      <div class="prose">
+        <p>I originally wanted pull-to-refresh on the feed, but couldn't get it working reliably in our timeline. We went with an explicit refresh button instead. It's less elegant, but it's clear and it shipped.</p>
+      </div>
+      <figure class="phone wide-shot"><div class="frame"><img src="img/sublease/feed-refresh.jpg" alt="Top of the Listing Feed with refresh and filter buttons in the top right" width="900" height="858" loading="lazy"></div><figcaption class="mono">Refresh + filter controls, top right</figcaption></figure>
+    </article>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Process</span>
+      <h2>From wireframes <em>to SwiftUI.</em></h2>
+      <p>I went from low-fi wireframes to high-fi prototypes in Figma, then built every screen in SwiftUI.</p>
+    </div>
+    <ol class="steps prose">
+      <li class="glass reveal"><strong>Low-fi wireframes</strong> to map the core flows: posting a listing, browsing and filtering, managing your listings, and messaging.</li>
+      <li class="glass reveal"><strong>High-fi Figma prototypes</strong> with the final layout, UW-inspired colors, and a 4-tab structure: Feed, Post, Messages, Profile.</li>
+      <li class="glass reveal"><strong>SwiftUI build</strong> from the prototypes, with Firebase handling auth, listings, and messages. I used Claude to talk through ideas and Claude Code to prototype screens quickly, then refined the details by hand.</li>
+    </ol>
+    <div class="callout prose reveal">
+      <p>The biggest lesson came in the move from design to build: native iOS components don't always look the way you drew them. The bottom tab bar is a good example. In my low-fi it was a static bar, but iOS renders it as a dynamic, animated control. Designing with platform components in mind from the start would have saved some rework.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Testing &amp; iteration</span>
+      <h2>Three tasks, <em>three changes.</em></h2>
+      <p>I ran task-based tests with 3 teammates: I gave them a specific task, let them work through the app, and collected feedback afterward. The focus was whether the flow between screens made sense.</p>
+    </div>
+    <div class="tablewrap reveal">
+      <table>
+        <thead><tr><th>What we tested</th><th>What we found</th><th>What we changed</th></tr></thead>
+        <tbody>
+          <tr><td>Contacting a lister</td><td>Going through the lister's profile added an extra step</td><td>Moved "Message Lister" onto the listing itself</td></tr>
+          <tr><td>Posting a listing</td><td>The new listing appeared in the feed, but the posting screen stayed open, which didn't make sense</td><td>Closed the posting screen after a successful post</td></tr>
+          <tr><td>Refreshing the feed</td><td>Pull-to-refresh wasn't working reliably</td><td>Added an explicit refresh button</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose reveal" style="color:var(--muted)">Testing also surfaced a few bugs that we fixed before the final demo.</p>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Reflection &amp; next steps</span>
+      <h2>If I <em>kept going.</em></h2>
+      <p>I'd start by testing with UW students outside our team, since teammates already knew how the app was supposed to work.</p>
+    </div>
+    <div class="next">
+      <div class="glass reveal"><b>Test with real users</b><span>Recruit students who are actively looking for or posting sublets.</span></div>
+      <div class="glass reveal"><b>Filter by lease dates</b><span>Dates are captured on every listing but can't be filtered yet, and timing is often the first thing students check.</span></div>
+      <div class="glass reveal"><b>Bring back pull-to-refresh</b><span>The more natural interaction on iOS, now that the core flows are stable.</span></div>
+      <div class="glass reveal"><b>Stronger verification</b><span>Go beyond email domain if the app opened to more users.</span></div>
+    </div>
+    <p class="takeaway reveal">Designing for a real platform means designing with its components and constraints, <em>not around them.</em></p>
+  </section>
+
+  <div class="end glass">
+    <div><span class="mono">Next</span><div style="font-size:1.2rem;letter-spacing:-.02em;margin-top:4px">See the rest of my work</div></div>
+    <a class="btn" href="index.html#projects">Back to projects <span aria-hidden="true">→</span></a>
+  </div>
+
+  <footer class="mono"><span>© 2026 Hanna Pan</span><span>Bay Area &amp; Seattle</span></footer>
+</div>
+
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  var vh = window.innerHeight;
+  var items = Array.prototype.filter.call(document.querySelectorAll('.reveal'), function (el) { return el.getBoundingClientRect().top > vh * 0.9; });
+  items.forEach(function (el) {
+    var sibs = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains('reveal'); });
+    el.style.setProperty('--d', (Math.max(0, sibs.indexOf(el)) % 4) * 0.08 + 's');
+    el.classList.add('pre');
+  });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); en.target.classList.remove('pre'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
