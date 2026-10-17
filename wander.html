@@ -179,6 +179,25 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
   .contrast, .pains { grid-template-columns: minmax(0, 1fr) !important; }
   .goals.four .goal { grid-template-columns: 44px minmax(0, 1fr); }
 }
+
+.browser { margin: 0; min-width: 0; }
+.bframe { border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); background: #1b1c20; box-shadow: 0 40px 70px -35px rgba(0,0,0,.9); transition: transform .8s var(--ease); }
+.browser:hover .bframe { transform: translateY(-4px); }
+.bframe .bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #24252b; border-bottom: 1px solid rgba(255,255,255,.08); }
+.bframe .bar i { width: 9px; height: 9px; border-radius: 50%; background: #45464d; }
+.bframe .bar span { margin-left: 10px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); background: #1a1b1f; padding: 3px 12px; border-radius: 6px; }
+.bframe img { display: block; width: 100%; height: auto; }
+.browser figcaption { margin-top: 12px; text-align: center; }
+.shot { margin-top: 32px; }
+.duo { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: center; margin-top: 36px; }
+.duo .phone { width: 100%; }
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 28px; }
+.tag-label { display: block; text-align: center; margin-bottom: 10px; color: var(--accent); }
+@media (max-width: 760px) {
+  .duo { grid-template-columns: minmax(0, 1fr); }
+  .duo .phone { width: 60%; margin-inline: auto; }
+  .gallery { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 </head>
 <body>
@@ -256,6 +275,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
         <figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Home feed with the five-tab bottom bar" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Primary: bottom tabs</figcaption></figure>
         <figure class="phone"><div class="frame"><img src="img/wander/menu.jpg" alt="Side menu with Settings, Places been, Saved, and Log out" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Secondary: side menu</figcaption></figure>
       </div>
+      <div class="shot"><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-menu.jpg" alt="Live Wander site with the side menu open over the discovery feed" width="1400" height="791" loading="lazy"></div><figcaption class="mono">Live site: side menu over the feed</figcaption></figure></div>
     </article>
 
     <article class="decision glass reveal">
@@ -268,6 +288,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
         <figure class="phone"><div class="frame"><img src="img/wander/log.jpg" alt="Create a new log form with destination, attachments, rating, comments, and tags" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Logging a place</figcaption></figure>
         <figure class="phone"><div class="frame"><img src="img/wander/trip.jpg" alt="Create a new trip form with title, destination, attractions, and invite collaborators" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Planning with collaborators</figcaption></figure>
       </div>
+      <div class="shot"><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-filter.jpg" alt="Live feed filter bar with tags like Scenic, Group-friendly, Fee required, Accessible, and Outdoor" width="1400" height="369" loading="lazy"></div><figcaption class="mono">Live site: tags become filters on the feed</figcaption></figure></div>
     </article>
 
     <article class="decision glass reveal">
@@ -276,10 +297,10 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <div class="prose">
         <p>I wanted the map to feel modern and familiar, ideally with Google Maps. With the time we had, I shipped it with React Leaflet instead. It works, but it looks dated. It was the right call for the deadline, and it's the first thing I'd upgrade.</p>
       </div>
-      <div class="phones">
-        <figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Designed map screen with Nearby, Saved, and Recommendations filters" width="786" height="1704" loading="lazy"></div><figcaption class="mono">The map as designed</figcaption></figure>
+      <div class="duo">
+        <div><span class="mono tag-label">Designed</span><figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Designed map screen with Nearby, Saved, and Recommendations filters" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Figma prototype</figcaption></figure></div>
+        <div><span class="mono tag-label">Shipped</span><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-map.jpg" alt="Live map built with React Leaflet showing Seattle" width="1400" height="786" loading="lazy"></div><figcaption class="mono">Live site: React Leaflet</figcaption></figure></div>
       </div>
-      <p class="mono" style="text-align:center;margin-top:14px">The shipped version uses React Leaflet</p>
     </article>
 
     <article class="decision glass reveal">
@@ -316,6 +337,17 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
     </ol>
     <div class="callout prose reveal">
       <p>Using Dev Mode and Claude Code together let me spend less time hand-translating spacing and styles, and more time on the flows themselves.</p>
+    </div>
+    <div class="duo reveal">
+      <div><span class="mono tag-label">Figma</span><figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Figma discovery feed" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Mobile prototype</figcaption></figure></div>
+      <div><span class="mono tag-label">Live</span><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-feed.jpg" alt="Live discovery feed with reviews of Kyoto, Horseshoe Bend, and Florence" width="1400" height="782" loading="lazy"></div><figcaption class="mono">React build on the web</figcaption></figure></div>
+    </div>
+    <p class="mono reveal" style="margin-top:56px">More from the live site</p>
+    <div class="gallery">
+      <figure class="browser reveal"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-trips.jpg" alt="My Trips page with a grid of trip photos" width="1400" height="786" loading="lazy"></div><figcaption class="mono">My Trips</figcaption></figure>
+      <figure class="browser reveal"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-new-log.jpg" alt="Create a new log form on the live site" width="1400" height="791" loading="lazy"></div><figcaption class="mono">Create a new log</figcaption></figure>
+      <figure class="browser reveal"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-profile.jpg" alt="Profile page with posts, followers, and photo grid" width="1400" height="793" loading="lazy"></div><figcaption class="mono">Profile</figcaption></figure>
+      <figure class="browser reveal"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-saved.jpg" alt="Saved places grid" width="1400" height="804" loading="lazy"></div><figcaption class="mono">Saved places</figcaption></figure>
     </div>
   </section>
 
