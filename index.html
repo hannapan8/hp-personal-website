@@ -212,6 +212,8 @@ ul.pts li::before { content: "✦"; position: absolute; left: 0; top: .1em; font
 
 .cover-link { text-decoration: none; color: inherit; }
 .cover-link .pcase { position: absolute; left: 24px; top: 20px; }
+.livelink { font-size: 13px; color: var(--muted); text-decoration: none; margin-top: -4px; transition: color .3s; }
+.livelink:hover { color: var(--ink); }
 /* Marquee */
 .marquee { margin-top: clamp(64px, 8vw, 100px); overflow: hidden; padding-block: 8px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 .track { display: flex; width: max-content; animation: slide 50s linear infinite; }
@@ -468,7 +470,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       </article>
 
       <article class="proj glass reveal">
-        <div class="cover" style="--g: radial-gradient(90% 120% at 85% 15%, #6f6380, transparent 60%), radial-gradient(70% 100% at 10% 100%, #3d5a64, transparent 60%), #14151a"><span class="pname">Wander</span><span class="pdate mono">Aug 2025</span></div>
+        <a class="cover cover-link" href="wander.html" aria-label="Wander case study" style="--g: radial-gradient(90% 120% at 85% 15%, #6f6380, transparent 60%), radial-gradient(70% 100% at 10% 100%, #3d5a64, transparent 60%), #14151a"><span class="pcase mono" style="color:var(--ink)">Case study →</span><span class="pname">Wander</span><span class="pdate mono">Aug 2025</span></a>
         <div class="pbody">
           <span class="mono tag">Travel discovery</span>
           <p class="desc">A travel platform that mixes interactive maps, travel content, and user blogs for personalized trip discovery.</p>
@@ -482,7 +484,8 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
             <li>Integrated Firebase for authentication and real-time data persistence.</li>
           </ul>
           <div class="tech"><span>React</span><span>Firebase</span><span>React Leaflet</span><span>JavaScript</span></div>
-          <div class="pfoot"><a class="plink" href="https://wander-6934e.web.app" target="_blank" rel="noopener"><span>wander-6934e.web.app</span><span class="go" aria-hidden="true">↗</span></a></div>
+          <div class="pfoot"><a class="plink" href="wander.html"><span>Read the case study</span><span class="go" aria-hidden="true">↗</span></a></div>
+          <a class="livelink" href="https://wander-6934e.web.app" target="_blank" rel="noopener">Live site: wander-6934e.web.app ↗</a>
         </div>
       </article>
 

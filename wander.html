@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wander Case Study</title>
+<meta name="description" content="Wander case study by Hanna Pan: a travel life-logging app for planning from real experiences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Same system as the portfolio: dark-first, smoky glows, white type with one italic serif accent. Case study reads as a single column with phone screens inline. */
+:root {
+  --bg: #0a0b0d;
+  --panel: rgba(255, 255, 255, 0.045);
+  --panel-2: rgba(255, 255, 255, 0.08);
+  --stroke: rgba(255, 255, 255, 0.10);
+  --ink: #f1f0ec;
+  --muted: #9b9a97;
+  --dim: #64635f;
+  --accent: #d8c6a2;
+  --glow-a: #34415c;
+  --glow-b: #4a4055;
+  --glow-c: #5e5142;
+  --sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.65;
+  padding-inline: clamp(16px, 4vw, 56px); padding-block: env(safe-area-inset-top, 0px) 40px; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: var(--bg); }
+a { color: inherit; }
+img { max-width: 100%; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+.mono { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.wrap { position: relative; z-index: 1; max-width: 1080px; margin-inline: auto; }
+.prose { max-width: 720px; }
+
+.aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aurora i { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.aurora i:nth-child(1) { width: 52vw; height: 52vw; left: -12vw; top: -10vw; background: var(--glow-a); animation: d1 26s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { width: 40vw; height: 40vw; right: -8vw; top: 30vh; background: var(--glow-b); animation: d2 32s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { width: 36vw; height: 36vw; left: 30vw; bottom: -14vw; background: var(--glow-c); opacity: .3; animation: d3 28s ease-in-out infinite alternate; }
+@keyframes d1 { to { transform: translate(18vw, 12vh) scale(1.15); } }
+@keyframes d2 { to { transform: translate(-22vw, 20vh) scale(.9); } }
+@keyframes d3 { to { transform: translate(-14vw, -26vh) scale(1.2); } }
+
+/* Nav */
+.nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 14px); z-index: 30; display: flex; align-items: center; gap: 16px; margin-top: 14px; padding: 10px 10px 10px 22px; border-radius: 999px;
+  background: rgba(14, 15, 18, .55); border: 1px solid var(--stroke); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.nav .back { text-decoration: none; font-size: 14px; color: var(--muted); display: inline-flex; gap: 10px; align-items: center; transition: color .3s; }
+.nav .back:hover { color: var(--ink); }
+.nav .back span { transition: transform .4s var(--ease); }
+.nav .back:hover span { transform: translateX(-3px); }
+.nav .name { margin-left: auto; font-size: 14px; color: var(--ink); text-decoration: none; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); }
+
+/* Header */
+header.cs { padding-block: clamp(70px, 10vw, 120px) 0; }
+h1 { font-weight: 400; font-size: clamp(3.4rem, 10vw, 8rem); letter-spacing: -.055em; line-height: .92; margin: 18px 0 0; }
+h1 em { font-size: 1.04em; }
+.lede { font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.4; letter-spacing: -.02em; max-width: 34ch; margin: 28px 0 0; color: var(--ink); }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 52px; border-top: 1px solid var(--stroke); }
+.meta div { padding: 18px 20px 0 0; min-width: 0; }
+.meta div + div { padding-left: 20px; border-left: 1px solid var(--stroke); }
+.meta dd { margin: 6px 0 0; font-size: 15px; line-height: 1.45; }
+
+/* Phones */
+.phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(14px, 3vw, 36px); flex-wrap: wrap; margin: 48px 0 0; }
+.phone { margin: 0; width: clamp(150px, 22vw, 240px); max-width: 100%; }
+.phone .frame { border-radius: 30px; padding: 7px; background: linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.04)); box-shadow: 0 40px 70px -35px rgba(0,0,0,.9); transition: transform .8s var(--ease); }
+.phone:hover .frame { transform: translateY(-6px); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 24px; }
+.phone figcaption { margin-top: 12px; text-align: center; }
+.hero-phones .phone { width: clamp(170px, 26vw, 280px); }
+.hero-phones .phone:nth-child(1) { transform: rotate(-4deg) translateY(18px); }
+.hero-phones .phone:nth-child(2) { transform: rotate(3deg); }
+
+/* Sections */
+section { padding-top: clamp(90px, 11vw, 140px); }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+h2 { font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); letter-spacing: -.05em; line-height: 1; margin: 14px 0 0; }
+h3 { font-weight: 400; font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -.035em; line-height: 1.15; margin: 0; }
+p { margin: 20px 0 0; }
+.prose p, .prose li { color: rgba(241,240,236,.82); }
+strong { font-weight: 500; color: var(--ink); }
+
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 40px; }
+.glass { background: var(--panel); border: 1px solid var(--stroke); border-radius: 24px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.pain { padding: 26px; }
+.pain h3 { font-size: 1.25rem; }
+.pain p { color: var(--muted); font-size: 15px; margin-top: 10px; }
+
+.goals { display: grid; gap: 0; margin-top: 36px; border-top: 1px solid var(--stroke); }
+.goal { display: grid; grid-template-columns: 70px 160px minmax(0, 1fr); gap: 20px; align-items: baseline; padding-block: 22px; border-bottom: 1px solid var(--stroke); }
+.goal .n { font-family: var(--serif); font-style: italic; font-size: 2rem; color: var(--accent); line-height: 1; }
+.goal b { font-weight: 400; font-size: 1.25rem; letter-spacing: -.02em; }
+.goal span { color: rgba(241,240,236,.82); }
+
+.decision { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; padding: clamp(26px, 4vw, 48px); margin-top: 18px; }
+.decision .num { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 1.1rem; }
+.decision h3 { margin-top: 8px; }
+.decision .prose { margin-top: 4px; }
+.decision .phones { margin-top: 36px; }
+.decision .phone { width: clamp(140px, 19vw, 210px); }
+.wide-shot { margin: 32px auto 0; max-width: 520px; }
+.wide-shot .frame { border-radius: 26px 26px 10px 10px; padding: 7px 7px 0; }
+.wide-shot img { border-radius: 20px 20px 4px 4px; }
+.wide-shot figcaption { text-align: center; margin-top: 12px; }
+
+ol.steps { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 14px; counter-reset: s; }
+ol.steps li { counter-increment: s; position: relative; padding: 22px 24px 22px 76px; }
+ol.steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 24px; top: 22px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--accent); }
+.callout { margin-top: 28px; padding: 26px 28px; border-left: 2px solid var(--accent); border-radius: 0 20px 20px 0; background: var(--panel); }
+.callout p { margin: 0; }
+
+.tablewrap { overflow-x: auto; margin-top: 36px; border-radius: 24px; border: 1px solid var(--stroke); background: var(--panel); }
+table { width: 100%; border-collapse: collapse; min-width: 620px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 18px 22px; border-bottom: 1px solid var(--stroke); }
+th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--ink); font-weight: 400; width: 24%; }
+td { color: rgba(241,240,236,.82); }
+
+.next { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 36px; }
+.next .glass { padding: 24px; }
+.next b { font-weight: 400; display: block; font-size: 1.1rem; letter-spacing: -.02em; }
+.next span { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; }
+.takeaway { margin-top: 56px; font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1.15; letter-spacing: -.035em; max-width: 26ch; }
+
+.end { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: clamp(90px, 11vw, 140px); padding: 28px 32px; }
+.end a { text-decoration: none; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 400; transition: background-color .3s; }
+.btn:hover { background: var(--accent); }
+footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 28px; }
+
+.reveal.pre { opacity: 0; transform: translateY(40px); filter: blur(8px); }
+.reveal.in { opacity: 1; transform: none; filter: none; transition: opacity 1s var(--ease), transform 1.1s var(--ease), filter 1s var(--ease); transition-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+@media (max-width: 760px) {
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .meta div:nth-child(n+3) { border-top: 1px solid var(--stroke); margin-top: 18px; }
+  .pains, .next { grid-template-columns: minmax(0, 1fr); }
+  .goal { grid-template-columns: 44px minmax(0, 1fr); }
+  .goal span { grid-column: 2; }
+  .hero-phones .phone { width: 44%; }
+  .decision .phone { width: 46%; }
+  .decision .phones { gap: 12px; }
+}
+
+.btn { text-decoration: none; }
+.links-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--stroke); }
+.btn.ghost:hover { background: var(--panel-2); color: var(--ink); }
+.goals.four .goal { grid-template-columns: 70px 220px minmax(0, 1fr); }
+.palette { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 32px; }
+.sw { border-radius: 18px; overflow: hidden; border: 1px solid var(--stroke); }
+.sw .chip { height: 110px; display: flex; align-items: flex-end; padding: 12px; font-size: 22px; font-weight: 400; }
+.sw .lab { padding: 12px 14px; background: var(--panel); }
+.sw .lab b { display: block; font-weight: 400; font-size: 14px; }
+.sw .lab span { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.contrast { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.cbox { border-radius: 20px; padding: 22px; background: #F2E9E4; }
+.cbox .sample { font-size: 18px; font-weight: 400; }
+.cbox .ratio { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #22223B; }
+.pill-bad, .pill-good { padding: 4px 10px; border-radius: 999px; }
+.pill-bad { background: #ecd3d3; color: #6b1d1d; }
+.pill-good { background: #d4e7d6; color: #1f4d27; }
+@media (max-width: 760px) {
+  .palette { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contrast, .pains { grid-template-columns: minmax(0, 1fr) !important; }
+  .goals.four .goal { grid-template-columns: 44px minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Case study">
+    <a class="back" href="index.html#projects"><span aria-hidden="true">←</span> Back to projects</a>
+    <a class="name" href="index.html">Hanna Pan</a>
+  </nav>
+
+  <header class="cs">
+    <span class="mono eyebrow">Case study · Web · Summer 2025</span>
+    <h1><em>Wander</em></h1>
+    <p class="lede">A Gen Z take on TripAdvisor: a travel life-logging app where people log places they've been, plan trips, and discover destinations through other travelers' real experiences.</p>
+    <div class="links-row">
+      <a class="btn" href="https://wander-6934e.web.app" target="_blank" rel="noopener">Open the live site <span aria-hidden="true">↗</span></a>
+      <a class="btn ghost" href="https://www.figma.com/design/GRu8vJFIlgpeIDUbDYXv3a/Wander?node-id=0-1" target="_blank" rel="noopener">View the Figma prototype <span aria-hidden="true">↗</span></a>
+    </div>
+    <dl class="meta">
+      <div><dt class="mono">Role</dt><dd>Sole designer &amp; frontend developer. Designed the whole app in Figma; built the map, My Trips, trip posting, and Firebase sign-in.</dd></div>
+      <div><dt class="mono">Team</dt><dd>2 students</dd></div>
+      <div><dt class="mono">Timeline</dt><dd>Summer 2025<br>Web development course</dd></div>
+      <div><dt class="mono">Tools</dt><dd>Figma, Figma Dev Mode, React, React Leaflet, Firebase, Claude Code</dd></div>
+    </dl>
+    <div class="phones hero-phones">
+      <figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Wander discovery feed with reviews of Taipei 101 and Florence's cathedral" width="786" height="1704"></div></figure>
+      <figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Wander map of Seattle with saved destinations pinned" width="786" height="1704"></div></figure>
+    </div>
+    <p class="mono" style="text-align:center;margin-top:18px">Discovery feed and map (Figma prototype)</p>
+  </header>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">The problem</span>
+      <h2>No place to plan from <em>real experiences.</em></h2>
+      <p>Travel tools today either handle logistics or show curated highlights, and neither helps you plan from real, personal experiences.</p>
+    </div>
+    <div class="pains" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <div class="pain glass reveal"><h3>Booking apps</h3><p>Expedia and Booking.com organize itineraries but leave out reflection and personality.</p></div>
+      <div class="pain glass reveal"><h3>Social media</h3><p>Instagram and TikTok capture trips, but they're highly curated and hard to turn into genuine recommendations.</p></div>
+    </div>
+    <div class="prose reveal">
+      <p>There was no single place to reflect on where you've been and use that to plan where to go next. Our biggest inspiration was Beli, which has become a Gen Z alternative to Yelp: you rank restaurants you've been to and get recommendations based on your taste and your friends' activity. Travel had no equivalent. TripAdvisor works, but it feels built for a different generation.</p>
+      <p>We set out to make <strong>the Beli of travel</strong>: social, personal, and built around people you trust.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Design goals</span>
+      <h2>Four things it <em>had to do.</em></h2>
+    </div>
+    <div class="goals four reveal">
+      <div class="goal"><span class="n">1</span><b>Make logging easy</b><span>Recording a place, with photos, a rating, a description, and tags like "nature" or "free to enter," should feel quick, not like homework.</span></div>
+      <div class="goal"><span class="n">2</span><b>Make planning collaborative</b><span>Trip lists should be easy to build and share with the people you're traveling with.</span></div>
+      <div class="goal"><span class="n">3</span><b>Make discovery feel familiar</b><span>Browsing other people's logs should feel like the social apps people already use.</span></div>
+      <div class="goal"><span class="n">4</span><b>Make it accessible</b><span>Readable contrast and comfortable sizing throughout.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Key design decisions</span>
+      <h2>Four calls that <em>shaped the app.</em></h2>
+    </div>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 01 · Navigation</span>
+      <h3>A side menu modeled on patterns people already know</h3>
+      <div class="prose">
+        <p>The hardest structural question was what belonged in the pull-out side menu: which pages, which actions, and how much account information. I looked to Instagram, since our users already know its patterns, and split navigation into two layers. The bottom tab bar holds the five things people do most: Home, Trips, Post, Map, and Profile. The side menu holds secondary and account items: Settings, Places been, Saved, Log out, and a contact line. That kept the main screen focused on content.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Home feed with the five-tab bottom bar" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Primary: bottom tabs</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/wander/menu.jpg" alt="Side menu with Settings, Places been, Saved, and Log out" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Secondary: side menu</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 02 · Logging</span>
+      <h3>Tags to make logs useful later</h3>
+      <div class="prose">
+        <p>Each log captures photos, a rating, a description, and tags like "nature," "group-friendly," or "free to enter." Tags turn personal memories into something other travelers can filter and plan from.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/wander/log.jpg" alt="Create a new log form with destination, attachments, rating, comments, and tags" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Logging a place</figcaption></figure>
+        <figure class="phone"><div class="frame"><img src="img/wander/trip.jpg" alt="Create a new trip form with title, destination, attractions, and invite collaborators" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Planning with collaborators</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 03 · Tradeoff</span>
+      <h3>Shipping the map with React Leaflet over Google Maps</h3>
+      <div class="prose">
+        <p>I wanted the map to feel modern and familiar, ideally with Google Maps. With the time we had, I shipped it with React Leaflet instead. It works, but it looks dated. It was the right call for the deadline, and it's the first thing I'd upgrade.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Designed map screen with Nearby, Saved, and Recommendations filters" width="786" height="1704" loading="lazy"></div><figcaption class="mono">The map as designed</figcaption></figure>
+      </div>
+      <p class="mono" style="text-align:center;margin-top:14px">The shipped version uses React Leaflet</p>
+    </article>
+
+    <article class="decision glass reveal">
+      <span class="num">Decision 04 · Accessibility</span>
+      <h3>Accessibility as a requirement, not a polish step</h3>
+      <div class="prose">
+        <p>Feedback from our professor, classmates, and friends consistently pointed to color contrast and sizing. I adjusted contrast and increased the size of text and key elements so the app stays readable and usable for more people.</p>
+        <p>For example, in the prototype the side-menu items used mauve on the cream background, about 2.7:1 contrast, well under the 4.5:1 WCAG target for body text. In the build, most text uses the palette's navy, at about 12.9:1.</p>
+      </div>
+      <div class="palette">
+        <div class="sw"><div class="chip" style="background:#22223B;color:#F2E9E4">Aa</div><div class="lab"><b>Navy</b><span>#22223B · text</span></div></div>
+        <div class="sw"><div class="chip" style="background:#4A4E69;color:#F2E9E4">Aa</div><div class="lab"><b>Slate</b><span>#4A4E69 · structure</span></div></div>
+        <div class="sw"><div class="chip" style="background:#9A8C98;color:#22223B">Aa</div><div class="lab"><b>Mauve</b><span>#9A8C98 · surface</span></div></div>
+        <div class="sw"><div class="chip" style="background:#C9ADA7;color:#22223B">Aa</div><div class="lab"><b>Dusty rose</b><span>#C9ADA7 · surface</span></div></div>
+        <div class="sw"><div class="chip" style="background:#F2E9E4;color:#22223B">Aa</div><div class="lab"><b>Cream</b><span>#F2E9E4 · background</span></div></div>
+      </div>
+      <div class="contrast">
+        <div class="cbox"><div class="sample" style="color:#9A8C98">Settings · Places been · Saved</div><div class="ratio"><span>Prototype: mauve on cream · 2.7:1</span><span class="pill-bad">Below 4.5:1</span></div></div>
+        <div class="cbox"><div class="sample" style="color:#22223B">Settings · Places been · Saved</div><div class="ratio"><span>Build: navy on cream · 12.9:1</span><span class="pill-good">Passes</span></div></div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Process</span>
+      <h2>Figma to HTML <em>to React.</em></h2>
+      <p>I went from a mobile Figma prototype to a static HTML draft to the final React app.</p>
+    </div>
+    <ol class="steps prose">
+      <li class="glass reveal"><strong>Figma prototype:</strong> designed 17 mobile screens, from splash and sign-in through the feed, comments, logging, trips (including inviting collaborators by email), map, profile, saved places, and settings. I built the visual system from a 5-color palette, navy and slate for text and structure, dusty rose and cream for surfaces. In a later pass I added a Recommendations filter to the feed and map, tying back to the Beli-style idea of planning from people you trust.</li>
+      <li class="glass reveal"><strong>Static HTML draft:</strong> built early versions of the key pages to test layout and flow before adding real data.</li>
+      <li class="glass reveal"><strong>React build:</strong> used Figma Dev Mode for exact specs and Claude Code to translate designs into components quickly, then wired up Firebase for sign-in and data.</li>
+    </ol>
+    <div class="callout prose reveal">
+      <p>Using Dev Mode and Claude Code together let me spend less time hand-translating spacing and styles, and more time on the flows themselves.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Feedback &amp; iteration</span>
+      <h2>Easier to read, <em>easier to use.</em></h2>
+      <p>We shared the concept and designs with our professor, classmates, and friends, and the most consistent feedback was about accessibility.</p>
+    </div>
+    <div class="tablewrap reveal">
+      <table>
+        <thead><tr><th>Who</th><th>What they said</th><th>What I changed</th></tr></thead>
+        <tbody>
+          <tr><td>Professor, classmates, friends</td><td>Some color pairings didn't have enough contrast</td><td>Adjusted the palette for stronger contrast</td></tr>
+          <tr><td>Professor, classmates, friends</td><td>Some text and elements were too small</td><td>Increased sizing across screens</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose reveal" style="color:var(--muted)">Most of the iteration went into making the interface easier to read and use.</p>
+  </section>
+
+  <section>
+    <div class="prose reveal">
+      <span class="mono eyebrow">Reflection &amp; next steps</span>
+      <h2>What didn't make <em>the cut.</em></h2>
+      <p>We scoped down to ship on time, and a few features didn't make it.</p>
+    </div>
+    <div class="next">
+      <div class="glass reveal"><b>Google Maps integration</b><span>Replace React Leaflet for a more modern, familiar map.</span></div>
+      <div class="glass reveal"><b>Your own posts on your profile</b><span>Right now you can post, but you can't view your posts from your profile.</span></div>
+      <div class="glass reveal"><b>Your own trips view</b><span>A dedicated view for trips you've created.</span></div>
+      <div class="glass reveal"><b>Test with real travelers</b><span>Our feedback came from people around us. Next I'd test logging and trip planning with people actively planning a trip.</span></div>
+    </div>
+    <p class="takeaway reveal">Borrowing patterns people already know made the app easier to pick up, and freed me to spend design time on <em>what was actually new.</em></p>
+  </section>
+
+  <div class="end glass">
+    <div><span class="mono">Try it</span><div style="font-size:1.2rem;letter-spacing:-.02em;margin-top:4px">Wander is live</div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="https://wander-6934e.web.app" target="_blank" rel="noopener">Open the live site <span aria-hidden="true">↗</span></a>
+      <a class="btn ghost" href="index.html#projects">Back to projects</a>
+    </div>
+  </div>
+
+  <footer class="mono"><span>© 2026 Hanna Pan</span><span>Bay Area &amp; Seattle</span></footer>
+</div>
+
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  var vh = window.innerHeight;
+  var items = Array.prototype.filter.call(document.querySelectorAll('.reveal'), function (el) { return el.getBoundingClientRect().top > vh * 0.9; });
+  items.forEach(function (el) {
+    var sibs = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains('reveal'); });
+    el.style.setProperty('--d', (Math.max(0, sibs.indexOf(el)) % 4) * 0.08 + 's');
+    el.classList.add('pre');
+  });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); en.target.classList.remove('pre'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
