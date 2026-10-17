@@ -198,6 +198,16 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
   .duo .phone { width: 60%; margin-inline: auto; }
   .gallery { grid-template-columns: minmax(0, 1fr); }
 }
+
+.mock { margin: 0; min-width: 0; }
+.mock img { display: block; width: 100%; height: auto; transition: transform .8s var(--ease); }
+.mock:hover img { transform: translateY(-6px); }
+.mock figcaption { margin-top: 4px; text-align: center; }
+.mock-pair { max-width: 620px; margin: 36px auto 0; }
+.hero-mock { max-width: 700px; margin-top: 56px; }
+.phones.mocks { align-items: flex-end; }
+.phones.mocks .mock { width: clamp(150px, 22vw, 250px); }
+@media (max-width: 760px) { .phones.mocks .mock { width: 46%; } }
 </style>
 </head>
 <body>
@@ -223,11 +233,8 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <div><dt class="mono">Timeline</dt><dd>Summer 2025<br>Web development course</dd></div>
       <div><dt class="mono">Tools</dt><dd>Figma, Figma Dev Mode, React, React Leaflet, Firebase, Claude Code</dd></div>
     </dl>
-    <div class="phones hero-phones">
-      <figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Wander discovery feed with reviews of Taipei 101 and Florence's cathedral" width="786" height="1704"></div></figure>
-      <figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Wander map of Seattle with saved destinations pinned" width="786" height="1704"></div></figure>
-    </div>
-    <p class="mono" style="text-align:center;margin-top:18px">Discovery feed and map (Figma prototype)</p>
+    <figure class="mock mock-pair hero-mock"><img src="img/wander/mock-feed-map.webp" alt="Wander discovery feed and map on two iPhones" width="1354" height="1219"></figure>
+    <p class="mono" style="text-align:center;margin-top:6px">Discovery feed and map (Figma prototype)</p>
   </header>
 
   <section>
@@ -271,10 +278,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <div class="prose">
         <p>The hardest structural question was what belonged in the pull-out side menu: which pages, which actions, and how much account information. I looked to Instagram, since our users already know its patterns, and split navigation into two layers. The bottom tab bar holds the five things people do most: Home, Trips, Post, Map, and Profile. The side menu holds secondary and account items: Settings, Places been, Saved, Log out, and a contact line. That kept the main screen focused on content.</p>
       </div>
-      <div class="phones">
-        <figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Home feed with the five-tab bottom bar" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Primary: bottom tabs</figcaption></figure>
-        <figure class="phone"><div class="frame"><img src="img/wander/menu.jpg" alt="Side menu with Settings, Places been, Saved, and Log out" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Secondary: side menu</figcaption></figure>
-      </div>
+      <div class="phones mocks"><figure class="mock"><img src="img/wander/mock-feed.webp" alt="Home feed with the five-tab bottom bar" width="594" height="1165" loading="lazy"><figcaption class="mono">Primary: bottom tabs</figcaption></figure><figure class="mock"><img src="img/wander/mock-menu.webp" alt="Side menu with Settings, Places been, Saved, and Log out" width="594" height="1165" loading="lazy"><figcaption class="mono">Secondary: side menu</figcaption></figure></div>
       <div class="shot"><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-menu.jpg" alt="Live Wander site with the side menu open over the discovery feed" width="1400" height="791" loading="lazy"></div><figcaption class="mono">Live site: side menu over the feed</figcaption></figure></div>
     </article>
 
@@ -284,10 +288,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <div class="prose">
         <p>Each log captures photos, a rating, a description, and tags like "nature," "group-friendly," or "free to enter." Tags turn personal memories into something other travelers can filter and plan from.</p>
       </div>
-      <div class="phones">
-        <figure class="phone"><div class="frame"><img src="img/wander/log.jpg" alt="Create a new log form with destination, attachments, rating, comments, and tags" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Logging a place</figcaption></figure>
-        <figure class="phone"><div class="frame"><img src="img/wander/trip.jpg" alt="Create a new trip form with title, destination, attractions, and invite collaborators" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Planning with collaborators</figcaption></figure>
-      </div>
+      <figure class="mock mock-pair"><img src="img/wander/mock-log-trip.webp" alt="Create a new log and Create a new trip forms on two iPhones" width="1354" height="1219" loading="lazy"><figcaption class="mono">Logging a place (left) and planning a trip with collaborators (right)</figcaption></figure>
       <div class="shot"><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-filter.jpg" alt="Live feed filter bar with tags like Scenic, Group-friendly, Fee required, Accessible, and Outdoor" width="1400" height="369" loading="lazy"></div><figcaption class="mono">Live site: tags become filters on the feed</figcaption></figure></div>
     </article>
 
@@ -298,7 +299,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
         <p>I wanted the map to feel modern and familiar, ideally with Google Maps. With the time we had, I shipped it with React Leaflet instead. It works, but it looks dated. It was the right call for the deadline, and it's the first thing I'd upgrade.</p>
       </div>
       <div class="duo">
-        <div><span class="mono tag-label">Designed</span><figure class="phone"><div class="frame"><img src="img/wander/map.jpg" alt="Designed map screen with Nearby, Saved, and Recommendations filters" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Figma prototype</figcaption></figure></div>
+        <div><span class="mono tag-label">Designed</span><figure class="mock"><img src="img/wander/mock-map.webp" alt="Designed map screen with Nearby, Saved, and Recommendations filters" width="594" height="1165" loading="lazy"><figcaption class="mono">Figma prototype</figcaption></figure></div>
         <div><span class="mono tag-label">Shipped</span><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-map.jpg" alt="Live map built with React Leaflet showing Seattle" width="1400" height="786" loading="lazy"></div><figcaption class="mono">Live site: React Leaflet</figcaption></figure></div>
       </div>
     </article>
@@ -339,7 +340,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <p>Using Dev Mode and Claude Code together let me spend less time hand-translating spacing and styles, and more time on the flows themselves.</p>
     </div>
     <div class="duo reveal">
-      <div><span class="mono tag-label">Figma</span><figure class="phone"><div class="frame"><img src="img/wander/home.jpg" alt="Figma discovery feed" width="786" height="1704" loading="lazy"></div><figcaption class="mono">Mobile prototype</figcaption></figure></div>
+      <div><span class="mono tag-label">Figma</span><figure class="mock"><img src="img/wander/mock-feed.webp" alt="Figma discovery feed on an iPhone" width="594" height="1165" loading="lazy"><figcaption class="mono">Mobile prototype</figcaption></figure></div>
       <div><span class="mono tag-label">Live</span><figure class="browser"><div class="bframe"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>wander-6934e.web.app</span></div><img src="img/wander/live-feed.jpg" alt="Live discovery feed with reviews of Kyoto, Horseshoe Bend, and Florence" width="1400" height="782" loading="lazy"></div><figcaption class="mono">React build on the web</figcaption></figure></div>
     </div>
     <p class="mono reveal" style="margin-top:56px">More from the live site</p>
