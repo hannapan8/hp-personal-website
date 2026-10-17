@@ -193,6 +193,8 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
   .formula { grid-template-columns: minmax(0, 1fr); }
   .op { justify-self: center; }
 }
+.caveat { margin: 12px 0 0; max-width: 60ch; font-size: 13.5px; color: var(--muted); }
+.end .caveat { margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -212,6 +214,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
       <a class="btn" href="https://lumivita.vercel.app" target="_blank" rel="noopener">Open the live site <span aria-hidden="true">↗</span></a>
       <span class="badge-result">Top 6 of 40+ teams · Healthcare Track</span>
     </div>
+    <p class="caveat">Hackathon project: our credits ran out after the event, so only the landing page works as intended now.</p>
     <dl class="meta">
       <div><dt class="mono">Role</dt><dd>UI/UX designer. Designed the name, logo, brand, and screens in Figma; worked on frontend animations and visual polish; organized our sprints and split the team into capability areas.</dd></div>
       <div><dt class="mono">Team</dt><dd>4 UW CSE teaching assistants</dd></div>
@@ -330,7 +333,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
   </section>
 
   <div class="end glass">
-    <div><span class="mono">Try it</span><div style="font-size:1.2rem;letter-spacing:-.02em;margin-top:4px">The landing page is live</div></div>
+    <div><span class="mono">Try it</span><div style="font-size:1.2rem;letter-spacing:-.02em;margin-top:4px">The landing page is live</div><p class="caveat">Heads up: since this was a hackathon project, our credits ran out after the event, so the app doesn’t work as intended anymore. The landing page still shows the design.</p></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <a class="btn" href="https://lumivita.vercel.app" target="_blank" rel="noopener">Open the live site <span aria-hidden="true">↗</span></a>
       <a class="btn ghost" href="index.html#projects">Back to projects</a>
